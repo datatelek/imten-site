@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Schema from "../components/Schema.astro";
+import { localBusinessLd } from "../utils/schema-generators";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("pages", "contacts");
+if (!entry) throw new Error("pages/contacts.md not found");
+const data = entry.data;
+const { Content } = await entry.render();
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Контакты", url: "/contacts" },
+];
+---
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  canonical={data.seo.canonical}
+  ldItems={[localBusinessLd()]}
+>
+  <Breadcrumbs items={breadcrumbs} />
+  {data.hero && <Hero {...data.hero} />}
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        <article class="prose"><Content /></article>
+        <div>
+          <h3>Форма заявки</h3>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

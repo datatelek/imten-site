@@ -1,0 +1,64 @@
+---
+import { withBase } from "../utils/url";
+const year = new Date().getFullYear();
+const services = [
+  { href: "/services/context-ads", label: "Контекстная реклама" },
+  { href: "/services/context-ads/yandex-direct", label: "Яндекс Директ" },
+  { href: "/services/context-ads/google-ads", label: "Google Ads" },
+  { href: "/services/target-ads", label: "Таргетированная реклама" },
+  { href: "/services/seo", label: "SEO-продвижение" },
+  { href: "/services/seo/woocommerce", label: "SEO для WooCommerce" },
+  { href: "/services/ai-automation", label: "AI-автоматизация" },
+];
+const industries = [
+  { href: "/industries/medical", label: "Медицина" },
+  { href: "/industries/realty", label: "Недвижимость" },
+  { href: "/industries/ecommerce", label: "E-commerce" },
+  { href: "/industries/education", label: "Образование" },
+  { href: "/industries/b2b", label: "B2B" },
+  { href: "/industries/logistics", label: "Логистика" },
+];
+const utility = [
+  { href: "/cases", label: "Кейсы" },
+  { href: "/blog", label: "Блог" },
+  { href: "/about", label: "О нас" },
+  { href: "/contacts", label: "Контакты" },
+  { href: "/privacy", label: "Политика конфиденциальности" },
+];
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__col">
+        <div class="site-header__logo" style="color:#fff;font-size:1.25rem;display:inline-block;margin-bottom:14px;">IM<span style="color:var(--c-brand)">TEN</span></div>
+        <p style="color:#b9c0cc;font-size:0.9375rem;max-width:32ch;margin:0 0 18px;">
+          Digital-агентство IMTEN. Контекст, таргет, SEO и AI-автоматизация для среднего и крупного бизнеса с 2017 года.
+        </p>
+        <p style="font-size:0.875rem;">
+          <a href="tel:+79056252608">+7 905 625 26 08</a><br>
+          <a href="mailto:i@imten.ru">i@imten.ru</a>
+        </p>
+        <p style="margin-top:14px;">
+          <a href="https://t.me/ilyalar" rel="noopener" style="margin-right:14px;">Telegram</a>
+          <a href="https://wa.me/79056252608" rel="noopener">WhatsApp</a>
+        </p>
+      </div>
+      <div class="site-footer__col">
+        <h4>Услуги</h4>
+        <ul>{services.map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}</ul>
+      </div>
+      <div class="site-footer__col">
+        <h4>Индустрии</h4>
+        <ul>{industries.map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}</ul>
+      </div>
+      <div class="site-footer__col">
+        <h4>Полезное</h4>
+        <ul>{utility.map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}</ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© {year} IMTEN. Все права защищены. ИП Ларшин И. ИНН&nbsp;{`{{ИЛЬЯ_ЗАПОЛНИТ_ИНН}}`}</span>
+      <span><a href={withBase("/privacy")}>Политика конфиденциальности</a></span>
+    </div>
+  </div>
+</footer>

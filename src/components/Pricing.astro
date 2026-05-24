@@ -1,0 +1,23 @@
+---
+export interface Props {
+  intro?: string;
+  plans: { name: string; price: string; target?: string; features: string[]; highlighted?: boolean }[];
+}
+const { intro, plans } = Astro.props;
+---
+{plans?.length > 0 && (
+  <div>
+    {intro && <p class="pricing__intro">{intro}</p>}
+    <div class="pricing">
+      {plans.map((p) => (
+        <div class={`plan ${p.highlighted ? "plan--highlighted" : ""}`}>
+          <div class="plan__name">{p.name}</div>
+          <div class="plan__price">{p.price}</div>
+          {p.target && <div class="plan__target">{p.target}</div>}
+          <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
+          <a href="#contact-form" class="btn btn--primary btn--block">Получить КП</a>
+        </div>
+      ))}
+    </div>
+  </div>
+)}

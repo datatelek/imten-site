@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://imten.ru/sitemap-index.xml
+Host: imten.ru

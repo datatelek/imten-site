@@ -1,0 +1,35 @@
+---
+// Отзывы. Контент пока стабовый — Илья заменит реальными.
+export interface Props { ids?: string[] }
+const { ids = [] } = Astro.props;
+
+const all: Record<string, { name: string; role: string; text: string }> = {
+  "dental-clinic-owner": {
+    name: "{{ИЛЬЯ_ЗАПОЛНИТ}}",
+    role: "Владелец стоматологического центра",
+    text: "{{ИЛЬЯ_ЗАПОЛНИТ_ТЕКСТ_ОТЗЫВА}}",
+  },
+  "it-school-cmo": {
+    name: "{{ИЛЬЯ_ЗАПОЛНИТ}}",
+    role: "CMO онлайн-школы IT-курсов",
+    text: "{{ИЛЬЯ_ЗАПОЛНИТ_ТЕКСТ_ОТЗЫВА}}",
+  },
+  "logistics-cmo": {
+    name: "{{ИЛЬЯ_ЗАПОЛНИТ}}",
+    role: "Директор по маркетингу логистической компании",
+    text: "{{ИЛЬЯ_ЗАПОЛНИТ_ТЕКСТ_ОТЗЫВА}}",
+  },
+};
+const items = ids.map((id) => all[id]).filter(Boolean);
+---
+{items.length > 0 && (
+  <div class="grid grid--3">
+    {items.map((r) => (
+      <div class="card">
+        <p style="font-size:0.9375rem;color:var(--c-fg);margin-bottom:18px;">«{r.text}»</p>
+        <div style="font-weight:600;">{r.name}</div>
+        <div style="font-size:0.8125rem;color:var(--c-fg-muted);">{r.role}</div>
+      </div>
+    ))}
+  </div>
+)}

@@ -1,0 +1,29 @@
+---
+export interface Props {
+  title?: string;
+  subtitle?: string;
+}
+const {
+  title = "Готовы увеличить продажи?",
+  subtitle = "Расскажите о проекте — пришлю предложение в течение рабочего дня.",
+} = Astro.props;
+import ContactForm from "./ContactForm.astro";
+---
+<section class="section section--alt" id="cta">
+  <div class="container">
+    <div class="cta-block">
+      <div>
+        <h2>{title}</h2>
+        <p>{subtitle}</p>
+        <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+          <a href="https://t.me/ilyalar" class="btn btn--primary" rel="noopener">Telegram @ilyalar</a>
+          <a href="https://wa.me/79056252608" class="btn btn--secondary" rel="noopener">WhatsApp</a>
+          <a href="tel:+79056252608" class="btn btn--ghost" style="color:#fff;border-color:#3a414c;">+7 905 625 26 08</a>
+        </div>
+      </div>
+      <div>
+        <ContactForm compact={true} />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../utils/url";
+---
+<BaseLayout
+  title="Страница не найдена — IMTEN"
+  description="Запрашиваемая страница не найдена. Вернитесь на главную или напишите нам в Telegram."
+  noindex={true}
+>
+  <section class="section" style="padding-top:120px;text-align:center;">
+    <div class="container-narrow">
+      <h1 style="font-size:6rem;margin-bottom:0;color:var(--c-brand);">404</h1>
+      <h2 style="margin-top:0;">Страница не найдена</h2>
+      <p class="muted" style="font-size:1.125rem;">
+        Возможно, страница была перемещена или вы перешли по устаревшей ссылке.
+      </p>
+      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px;">
+        <a href={withBase("/")} class="btn btn--primary btn--lg">На главную</a>
+        <a href={withBase("/services")} class="btn btn--secondary btn--lg">Услуги</a>
+        <a href={withBase("/cases")} class="btn btn--secondary btn--lg">Кейсы</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

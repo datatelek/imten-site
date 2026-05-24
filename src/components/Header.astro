@@ -1,0 +1,50 @@
+---
+import { withBase } from "../utils/url";
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== "/" && path.startsWith(href));
+const links = [
+  { href: "/services", label: "Услуги" },
+  { href: "/industries", label: "Индустрии" },
+  { href: "/cases", label: "Кейсы" },
+  { href: "/blog", label: "Блог" },
+  { href: "/about", label: "О нас" },
+  { href: "/contacts", label: "Контакты" },
+];
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href={withBase("/")} class="site-header__logo" aria-label="IMTEN — на главную">IM<span>TEN</span></a>
+    <nav class="site-header__nav" aria-label="Основная навигация">
+      {links.map((l) => (
+        <a href={withBase(l.href)} aria-current={isActive(l.href) ? "page" : undefined}>{l.label}</a>
+      ))}
+    </nav>
+    <div class="site-header__actions">
+      <a href="tel:+79056252608" class="site-header__phone">+7 905 625 26 08</a>
+      <a href={withBase("/contacts")} class="btn btn--primary">Обсудить проект</a>
+      <button type="button" class="menu-toggle" aria-label="Открыть меню" data-open-menu>≡</button>
+    </div>
+  </div>
+</header>
+
+<dialog id="mobile-menu" class="mobile-menu" aria-label="Мобильное меню">
+  <div class="mobile-menu__inner">
+    <button type="button" class="mobile-menu__close" aria-label="Закрыть" data-close-menu>×</button>
+    <nav aria-label="Мобильная навигация">
+      <a href={withBase("/")}>Главная</a>
+      {links.map((l) => <a href={withBase(l.href)}>{l.label}</a>)}
+    </nav>
+  </div>
+</dialog>
+
+<script>
+  const dlg = document.getElementById("mobile-menu") as HTMLDialogElement | null;
+  if (dlg) {
+    document.querySelectorAll("[data-open-menu]").forEach((b) =>
+      b.addEventListener("click", () => dlg.showModal())
+    );
+    dlg.querySelectorAll("[data-close-menu], nav a").forEach((b) =>
+      b.addEventListener("click", () => dlg.close())
+    );
+  }
+</script>

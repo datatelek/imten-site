@@ -1,0 +1,35 @@
+---
+import { withBase } from "../utils/url";
+export interface Props {
+  href: string;
+  title: string;
+  industry?: string;
+  period?: string;
+  summary?: string;
+  metrics?: { value: string; label: string }[];
+}
+const { href, title, industry, period, summary, metrics = [] } = Astro.props;
+const industryRu: Record<string, string> = {
+  medical: "Медицина", realty: "Недвижимость", ecommerce: "E-commerce",
+  education: "Образование", b2b: "B2B", logistics: "Логистика", other: "Прочее",
+};
+---
+<a href={withBase(href)} class="case-card">
+  <div class="case-card__meta">
+    {industry && industryRu[industry]}
+    {industry && period && " · "}
+    {period}
+  </div>
+  <h3 class="case-card__title">{title}</h3>
+  {summary && <p class="case-card__summary">{summary}</p>}
+  {metrics.length > 0 && (
+    <div class="case-card__metrics">
+      {metrics.slice(0, 3).map((m) => (
+        <div class="case-card__metric">
+          <strong>{m.value}</strong>
+          {m.label}
+        </div>
+      ))}
+    </div>
+  )}
+</a>

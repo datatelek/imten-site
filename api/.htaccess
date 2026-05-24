@@ -1,0 +1,8 @@
+# Запрещаем доступ к секретам и логам из веба
+<FilesMatch "(\.env|\.env\..*)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^log/ - [F,L]
+</IfModule>

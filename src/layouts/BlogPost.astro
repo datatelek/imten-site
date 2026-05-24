@@ -1,0 +1,47 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import CTABlock from "../components/CTABlock.astro";
+import { articleLd, SITE_URL } from "../utils/schema-generators";
+
+export interface Props { entry: any; }
+const { entry } = Astro.props;
+const data = entry.data;
+const { Content } = await entry.render();
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Блог", url: "/blog" },
+  { name: data.title, url: `/blog/${entry.slug}` },
+];
+
+const ld = [
+  articleLd({
+    title: data.title,
+    description: data.description,
+    url: `${SITE_URL}/blog/${entry.slug}`,
+    datePublished: data.pubDate,
+    dateModified: data.updatedDate,
+    image: data.cover,
+  }),
+];
+---
+<BaseLayout
+  title={data.seo?.title || data.title}
+  description={data.seo?.description || data.description}
+  ldItems={ld}
+>
+  <Breadcrumbs items={breadcrumbs} />
+  <section class="section">
+    <div class="container-narrow">
+      <h1>{data.title}</h1>
+      <p style="color:var(--c-fg-muted);">
+        {new Date(data.pubDate).toLocaleDateString("ru-RU", { year: "numeric", month: "long", day: "numeric" })}
+      </p>
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+  <CTABlock />
+</BaseLayout>

@@ -1,0 +1,103 @@
+# =================================================================
+# IMTEN .htaccess — TimeWeb shared hosting (Apache 2.4 + PHP)
+# Копируется в dist/ автоматически через astro.config.mjs
+# =================================================================
+
+# ---------- 1. RewriteEngine, HTTPS, без www ----------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Принудительный HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Убираем www → без www
+  RewriteCond %{HTTP_HOST} ^www\.imten\.ru$ [NC]
+  RewriteRule ^(.*)$ https://imten.ru/$1 [R=301,L]
+
+  # ---------- 2. Редиректы со старого сайта ----------
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteRule ^services\.html$ /services [R=301,L]
+  RewriteRule ^cases\.html$ /cases [R=301,L]
+  RewriteRule ^about\.html$ /about [R=301,L]
+  RewriteRule ^blog\.html$ /blog [R=301,L]
+  RewriteRule ^contact\.html$ /contacts [R=301,L]
+  RewriteRule ^contacts\.html$ /contacts [R=301,L]
+
+  # Старые URL детальных кейсов (Manus AI генерировал их с «_» и пустыми частями)
+  RewriteRule ^case-meditsinskiy-centr\.html$ /cases/medical-center [R=301,L]
+  RewriteRule ^case-pulua-villas\.html$ /cases/bali-realty [R=301,L]
+  RewriteRule ^case--\.html$ /cases/dental-clinic [R=301,L]
+  RewriteRule ^case-transportnaya-kompaniya\.html$ /cases/china-logistics [R=301,L]
+  RewriteRule ^case---\.html$ /cases/speech-courses [R=301,L]
+  RewriteRule ^case-it-education\.html$ /cases/it-education [R=301,L]
+  RewriteRule ^case-logisticheskie-sistemy\.html$ /cases/logistics-systems [R=301,L]
+</IfModule>
+
+# ---------- 3. Brotli / gzip ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml application/xml application/rss+xml application/atom+xml
+</IfModule>
+
+# ---------- 4. Кэширование ----------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Хешированные ассеты Astro (_astro/*) — год + immutable
+  <FilesMatch "\.(js|mjs|css|woff|woff2|ttf|eot|webp|avif|png|jpg|jpeg|gif|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML — без кэша браузера, всегда свежая версия
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # robots.txt и sitemap.xml — кэш на час
+  <FilesMatch "(robots\.txt|sitemap.*\.xml)$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
+
+  # ---------- 5. Security headers ----------
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+  # CSP — расширить под реально подключаемые домены при необходимости
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: https://mc.yandex.ru https://*.yandex.ru; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://*.metrika.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://mc.yandex.ru https://*.metrika.yandex.ru; frame-src https://mc.yandex.ru; worker-src 'self' blob:;"
+
+  # Убираем серверные баннеры
+  Header unset Server
+  Header unset X-Powered-By
+</IfModule>
+
+# ---------- 6. MIME-типы (на случай если хостинг не знает webp/avif/woff2) ----------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# ---------- 7. Запрет доступа к служебным файлам ----------
+<FilesMatch "(^\.|composer\.json|composer\.lock|package\.json|package-lock\.json|tsconfig\.json|astro\.config\..*|\.env|\.env\..*|\.git.*)$">
+  Require all denied
+</FilesMatch>
+
+# ---------- 8. Astro trailing slash (без слеша) ----------
+# Astro сгенерил /services как /services/index.html — Apache отдаст автоматически.
+# Если хочется явный 301 со слеша на без слеша:
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_URI} ^/(.+)/$
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+</IfModule>
+
+# ---------- 9. 404 fallback ----------
+ErrorDocument 404 /404.html

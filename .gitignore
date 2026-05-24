@@ -1,0 +1,30 @@
+# Astro
+.astro/
+dist/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env (секреты)
+.env
+.env.local
+.env.*.local
+api/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Временное
+_source/

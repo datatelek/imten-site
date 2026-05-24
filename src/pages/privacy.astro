@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("pages", "privacy");
+if (!entry) throw new Error("pages/privacy.md not found");
+const data = entry.data;
+const { Content } = await entry.render();
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Политика конфиденциальности", url: "/privacy" },
+];
+---
+<BaseLayout title={data.seo.title} description={data.seo.description} canonical={data.seo.canonical}>
+  <Breadcrumbs items={breadcrumbs} />
+  <section class="section">
+    <div class="container-narrow">
+      <article class="prose"><Content /></article>
+    </div>
+  </section>
+</BaseLayout>

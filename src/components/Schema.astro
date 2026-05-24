@@ -1,0 +1,9 @@
+---
+// Универсальный рендерер JSON-LD.
+// Принимает массив объектов и выводит для каждого <script type="application/ld+json">.
+type Props = { items: any[] };
+const { items } = Astro.props;
+---
+{items.filter(Boolean).map((data) => (
+  <script type="application/ld+json" set:html={JSON.stringify(data)} />
+))}

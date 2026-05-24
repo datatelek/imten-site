@@ -1,0 +1,14 @@
+---
+export interface Props { items: { title: string; desc: string }[] }
+const { items } = Astro.props;
+---
+{items?.length > 0 && (
+  <div class="included">
+    {items.map((it) => (
+      <div class="included__row">
+        <div class="included__title">{it.title}</div>
+        <div class="included__desc">{it.desc}</div>
+      </div>
+    ))}
+  </div>
+)}

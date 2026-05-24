@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1116"/>
+      <stop offset="1" stop-color="#1a1f29"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="80" y="280" font-family="Helvetica,Arial,sans-serif" font-weight="800" font-size="120" fill="#ffffff">IM<tspan fill="#ff5722">TEN</tspan></text>
+  <text x="80" y="370" font-family="Helvetica,Arial,sans-serif" font-weight="400" font-size="44" fill="#b9c0cc">Digital-агентство</text>
+  <text x="80" y="440" font-family="Helvetica,Arial,sans-serif" font-weight="400" font-size="32" fill="#8a93a3">Контекст · Таргет · SEO · AI-автоматизация</text>
+  <text x="80" y="560" font-family="Helvetica,Arial,sans-serif" font-weight="500" font-size="28" fill="#ff5722">imten.ru</text>
+</svg>

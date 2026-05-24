@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import CTABlock from "../../components/CTABlock.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Блог", url: "/blog" },
+];
+---
+<BaseLayout
+  title="Блог IMTEN — статьи о контексте, SEO и AI"
+  description="Блог digital-агентства IMTEN. Разборы кампаний, аналитика, кейсы, новости из мира интернет-маркетинга."
+>
+  <Breadcrumbs items={breadcrumbs} />
+  <section class="hero">
+    <div class="container">
+      <h1>Блог</h1>
+      <p class="hero__sub">Разборы, кейсы, инструкции. Без воды и инфоцыганства.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <div class="card text-center" style="padding:48px;">
+          <h3>Блог скоро появится</h3>
+          <p class="muted">Готовим первые статьи. Подпишитесь на Telegram — там я делюсь короткими разборами по горячим следам.</p>
+          <p style="margin-top:16px;"><a href="https://t.me/ilyalar" class="btn btn--primary" rel="noopener">Подписаться на Telegram</a></p>
+        </div>
+      ) : (
+        <div class="grid grid--2">
+          {posts.map((p) => (
+            <a href={`/blog/${p.slug}`} class="card">
+              <div style="font-size:0.8125rem;color:var(--c-fg-soft);">
+                {new Date(p.data.pubDate).toLocaleDateString("ru-RU", { year: "numeric", month: "long", day: "numeric" })}
+              </div>
+              <h3 class="card__title">{p.data.title}</h3>
+              <p class="card__desc">{p.data.description}</p>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <CTABlock />
+</BaseLayout>

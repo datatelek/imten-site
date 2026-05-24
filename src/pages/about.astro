@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import CTABlock from "../components/CTABlock.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("pages", "about");
+if (!entry) throw new Error("pages/about.md not found");
+const data = entry.data;
+const { Content } = await entry.render();
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "О нас", url: "/about" },
+];
+---
+<BaseLayout title={data.seo.title} description={data.seo.description} canonical={data.seo.canonical}>
+  <Breadcrumbs items={breadcrumbs} />
+  {data.hero && <Hero {...data.hero} />}
+  <section class="section">
+    <div class="container-narrow">
+      <article class="prose"><Content /></article>
+    </div>
+  </section>
+  {data.faq?.length > 0 && (
+    <section class="section section--alt">
+      <div class="container-narrow">
+        <div class="section__header"><h2>Частые вопросы</h2></div>
+        <FAQAccordion items={data.faq} />
+      </div>
+    </section>
+  )}
+  <CTABlock />
+</BaseLayout>

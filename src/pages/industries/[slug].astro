@@ -1,0 +1,24 @@
+---
+import IndustryPage from "../../layouts/IndustryPage.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const all = await getCollection("pages", ({ id, data }) =>
+    id.startsWith("industries/") && id !== "industries/_index" && !data.draft
+  );
+  return all.map((entry) => {
+    // slug — последняя часть пути файла
+    const key = entry.slug.replace(/^industries\//, "");
+    return { params: { slug: key }, props: { entry, industryKey: key } };
+  });
+}
+
+const { entry, industryKey } = Astro.props;
+const data = entry.data;
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Индустрии", url: "/industries" },
+  { name: data.title, url: `/industries/${industryKey}` },
+];
+---
+<IndustryPage entry={entry} industryKey={industryKey} breadcrumbs={breadcrumbs} />

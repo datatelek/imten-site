@@ -1,0 +1,41 @@
+---
+import ServicePage from "../../layouts/ServicePage.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const all = await getCollection("pages", ({ data }) => !data.draft);
+  const services = all.filter(
+    (p) => p.data.url?.startsWith("/services/") && p.data.url !== "/services"
+  );
+  return services.map((entry) => {
+    // slug в frontmatter имеет формат "context-ads/yandex-direct" или "seo/woocommerce"
+    const slug = entry.data.slug || entry.slug.replace(/^services\//, "");
+    return {
+      params: { slug },
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const data = entry.data;
+const url = data.url || `/services/${entry.data.slug}`;
+
+const segs = url.replace(/^\//, "").split("/").filter(Boolean);
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Услуги", url: "/services" },
+];
+
+// Если есть parent — добавим промежуточную крошку
+if (data.parent && data.parent !== "services") {
+  breadcrumbs.push({
+    name: data.parent === "context-ads" ? "Контекстная реклама"
+        : data.parent === "target-ads" ? "Таргетированная реклама"
+        : data.parent === "seo" ? "SEO" : data.parent,
+    url: `/services/${data.parent}`,
+  });
+}
+breadcrumbs.push({ name: data.title, url });
+---
+<ServicePage entry={entry} breadcrumbs={breadcrumbs} />

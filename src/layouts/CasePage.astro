@@ -1,0 +1,43 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import CTABlock from "../components/CTABlock.astro";
+
+export interface Props { entry: any; }
+const { entry } = Astro.props;
+const data = entry.data;
+const { Content } = await entry.render();
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Кейсы", url: "/cases" },
+  { name: data.title, url: `/cases/${entry.slug}` },
+];
+---
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  canonical={data.seo.canonical}
+  ogImage={data.seo.ogImage}
+>
+  <Breadcrumbs items={breadcrumbs} />
+  <Hero {...data.hero} />
+
+  <section class="section">
+    <div class="container-narrow">
+      {data.client && (
+        <div style="display:flex;flex-wrap:wrap;gap:24px;margin-bottom:24px;color:var(--c-fg-muted);font-size:0.9375rem;">
+          <span><strong style="color:var(--c-fg);">Клиент:</strong> {data.client}</span>
+          {data.period && <span><strong style="color:var(--c-fg);">Период:</strong> {data.period}</span>}
+          {data.budget && <span><strong style="color:var(--c-fg);">Бюджет:</strong> {data.budget}</span>}
+        </div>
+      )}
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <CTABlock title="Хочу так же" subtitle="Расскажите о своей задаче — пришлю предложение в течение рабочего дня." />
+</BaseLayout>

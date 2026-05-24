@@ -1,0 +1,149 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Pains from "../components/Pains.astro";
+import Included from "../components/Included.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import Pricing from "../components/Pricing.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import Reviews from "../components/Reviews.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import CaseCard from "../components/CaseCard.astro";
+import CTABlock from "../components/CTABlock.astro";
+import { serviceLd, SITE_URL } from "../utils/schema-generators";
+import { getCollection } from "astro:content";
+
+export interface Props {
+  entry: any;
+  breadcrumbs: { name: string; url: string }[];
+}
+const { entry, breadcrumbs } = Astro.props;
+const data = entry.data;
+const { Content } = await entry.render();
+
+// Связанные кейсы — фильтр по services
+let related: any[] = [];
+if (data.relatedCases?.length) {
+  const all = await getCollection("cases", ({ data }) => !data.draft);
+  related = all.filter((c) => data.relatedCases.includes(c.slug)).slice(0, 4);
+}
+
+const ld = [
+  serviceLd({
+    name: data.seo.title,
+    description: data.seo.description,
+    url: data.url || `/services/${entry.slug}`,
+  }),
+];
+---
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  canonical={data.seo.canonical}
+  ogImage={data.seo.ogImage}
+  ldItems={ld}
+>
+  <Breadcrumbs items={breadcrumbs} />
+  {data.hero && <Hero {...data.hero} />}
+
+  {data.pains?.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <h2>Что обычно идёт не так</h2>
+          <p>Типичные ситуации, с которыми приходят клиенты до нас.</p>
+        </div>
+        <Pains items={data.pains} />
+      </div>
+    </section>
+  )}
+
+  {data.included?.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <h2>Что входит в услугу</h2>
+        </div>
+        <Included items={data.included} />
+      </div>
+    </section>
+  )}
+
+  {data.process?.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <h2>Как мы работаем</h2>
+          <p>Прозрачный процесс от первого брифа до месячного отчёта.</p>
+        </div>
+        <ProcessSteps steps={data.process} />
+      </div>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <h2>Кейсы по этой услуге</h2>
+        </div>
+        <div class="grid grid--2">
+          {related.map((c) => (
+            <CaseCard
+              href={`/cases/${c.slug}`}
+              title={c.data.title}
+              industry={c.data.industry}
+              period={c.data.period}
+              summary={c.data.summary}
+              metrics={c.data.hero?.metrics?.slice(0, 3)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {data.pricing && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <h2>Тарифы</h2>
+        </div>
+        <Pricing {...data.pricing} />
+      </div>
+    </section>
+  )}
+
+  {data.faq?.length > 0 && (
+    <section class="section">
+      <div class="container-narrow">
+        <div class="section__header">
+          <h2>Частые вопросы</h2>
+        </div>
+        <FAQAccordion items={data.faq} />
+      </div>
+    </section>
+  )}
+
+  {data.reviews?.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <h2>Отзывы</h2>
+        </div>
+        <Reviews ids={data.reviews} />
+      </div>
+    </section>
+  )}
+
+  {/* Свободный Markdown-контент ниже структурированных блоков */}
+  <section class="section">
+    <div class="container-narrow">
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <CTABlock />
+</BaseLayout>

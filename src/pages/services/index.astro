@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CTABlock from "../../components/CTABlock.astro";
+import { getEntry, getCollection } from "astro:content";
+
+const entry = await getEntry("pages", "services/_index");
+const data = entry?.data;
+
+// Все услуги (страницы с url начинающимся с /services/, без хаба)
+const all = await getCollection("pages", ({ data }) => !data.draft);
+const services = all
+  .filter((p) => p.data.url?.startsWith("/services/") && !p.data.url.endsWith("/services"))
+  .filter((p) => !p.data.parent || ["services", "context-ads", "target-ads", "seo"].includes(p.data.parent))
+  .sort((a, b) => (a.data.sortOrder || 999) - (b.data.sortOrder || 999));
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Услуги", url: "/services" },
+];
+---
+<BaseLayout
+  title={data?.seo.title || "Услуги — IMTEN"}
+  description={data?.seo.description || "Полный спектр услуг digital-агентства IMTEN."}
+  canonical={data?.seo.canonical}
+>
+  <Breadcrumbs items={breadcrumbs} />
+  {data?.hero && <Hero {...data.hero} />}
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3">
+        {services.map((s) => (
+          <ServiceCard
+            title={s.data.title}
+            desc={s.data.seo.description}
+            href={s.data.url!}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTABlock />
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+// Контактная форма. Шлёт POST на /api/contact.php → Telegram + email.
+export interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<form id="contact-form" class="form" method="post" action="/api/contact.php" novalidate>
+  <label>
+    <span class="form__hint">Как к вам обращаться?</span>
+    <input type="text" name="name" required minlength="2" maxlength="80" autocomplete="name" placeholder="Илья" />
+  </label>
+  <label>
+    <span class="form__hint">Телефон или Telegram (что удобнее)</span>
+    <input type="text" name="contact" required minlength="4" maxlength="80" placeholder="+7 905 ... или @username" />
+  </label>
+  {!compact && (
+    <label>
+      <span class="form__hint">Кратко о задаче (необязательно)</span>
+      <textarea name="message" maxlength="2000" placeholder="Что хотите рекламировать, бюджет, дедлайн"></textarea>
+    </label>
+  )}
+  <!-- honeypot — должен оставаться пустым -->
+  <div class="form__honeypot" aria-hidden="true">
+    <label>Не заполняйте это поле <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <input type="hidden" name="source" value={Astro.url.pathname} />
+  <button type="submit" class="btn btn--primary btn--lg btn--block">Отправить заявку</button>
+  <p class="form__hint">Нажимая «Отправить», вы соглашаетесь с <a href="/privacy">политикой конфиденциальности</a>.</p>
+  <div id="form-status" role="status" aria-live="polite"></div>
+</form>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+  if (form && status) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      status.className = "form__status";
+      status.textContent = "Отправляем...";
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        const r = await fetch("/api/contact.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const json = await r.json();
+        if (json.ok) {
+          status.className = "form__status form__status--ok";
+          status.textContent = "Заявка принята. Свяжусь в течение 30 минут.";
+          form.reset();
+          // Цель Я.Метрики (через Partytown forward)
+          if (typeof (window as any).ym === "function") {
+            (window as any).ym(16455472, "reachGoal", "form_submit");
+          }
+        } else {
+          status.className = "form__status form__status--err";
+          status.textContent = json.error || "Не удалось отправить. Напишите в Telegram @ilyalar.";
+        }
+      } catch (err) {
+        status.className = "form__status form__status--err";
+        status.textContent = "Сетевая ошибка. Напишите в Telegram @ilyalar или WhatsApp.";
+      }
+    });
+  }
+</script>

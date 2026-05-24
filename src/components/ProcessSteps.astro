@@ -1,0 +1,16 @@
+---
+export interface Props {
+  steps: { num: number; title: string; desc: string; days?: string }[];
+}
+const { steps } = Astro.props;
+---
+<div class="process">
+  {steps.map((s) => (
+    <div class="process__step">
+      <div class="process__num">{s.num}</div>
+      <div class="process__title">{s.title}</div>
+      <p class="process__desc">{s.desc}</p>
+      {s.days && <div class="process__days">{s.days}</div>}
+    </div>
+  ))}
+</div>

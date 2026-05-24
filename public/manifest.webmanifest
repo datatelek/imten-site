@@ -1,0 +1,15 @@
+{
+  "name": "IMTEN — Digital-агентство",
+  "short_name": "IMTEN",
+  "description": "Контекстная реклама, таргет, SEO, аналитика, AI-автоматизация.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0e1116",
+  "lang": "ru",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
+  ]
+}

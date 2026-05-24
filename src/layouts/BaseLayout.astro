@@ -1,0 +1,95 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Schema from "../components/Schema.astro";
+import { organizationLd, webSiteLd, SITE_URL } from "../utils/schema-generators";
+import { withBase } from "../utils/url";
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  ldItems?: any[];
+}
+
+const {
+  title,
+  description,
+  canonical = SITE_URL + Astro.url.pathname,
+  ogImage = `${SITE_URL}/assets/og/default.png`,
+  noindex = false,
+  ldItems = [],
+} = Astro.props;
+
+// На превью (GitHub Pages) — всегда noindex, никаких поисковиков
+const isPreview = (import.meta.env.BASE_URL || "/").replace(/\/$/, "") !== "";
+const shouldNoindex = noindex || isPreview;
+
+const fullTitle = title.includes("IMTEN") ? title : `${title} — IMTEN`;
+const ldBase = [organizationLd(), webSiteLd(), ...ldItems];
+const YANDEX_METRIKA_ID = "16455472";
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0e1116" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {shouldNoindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="IMTEN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Иконки -->
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <link rel="manifest" href={withBase("/manifest.webmanifest")} />
+
+    <!-- Hreflang (заложено под будущее) -->
+    <link rel="alternate" hreflang="ru" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    {!isPreview && <link rel="preconnect" href="https://mc.yandex.ru" crossorigin />}
+
+    <Schema items={ldBase} />
+  </head>
+  <body>
+    <a href="#main" class="hidden">Перейти к контенту</a>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+
+    {!isPreview && (
+      <>
+        <!-- Я.Метрика через Partytown — только на проде, не на GitHub Pages превью -->
+        <script type="text/partytown" define:vars={{ YANDEX_METRIKA_ID }}>
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+          ym(YANDEX_METRIKA_ID, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+        </script>
+        <noscript><div><img src={`https://mc.yandex.ru/watch/${YANDEX_METRIKA_ID}`} style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+      </>
+    )}
+  </body>
+</html>

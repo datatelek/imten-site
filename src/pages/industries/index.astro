@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CTABlock from "../../components/CTABlock.astro";
+import { getEntry, getCollection } from "astro:content";
+
+const entry = await getEntry("pages", "industries/_index");
+const data = entry?.data;
+
+const all = await getCollection("pages", ({ data }) => !data.draft);
+const industries = all
+  .filter((p) => p.data.url?.startsWith("/industries/") && p.data.url !== "/industries")
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, "ru"));
+
+const breadcrumbs = [
+  { name: "Главная", url: "/" },
+  { name: "Индустрии", url: "/industries" },
+];
+---
+<BaseLayout
+  title={data?.seo.title || "Индустрии — IMTEN"}
+  description={data?.seo.description || "В каких нишах работает IMTEN."}
+  canonical={data?.seo.canonical}
+>
+  <Breadcrumbs items={breadcrumbs} />
+  {data?.hero && <Hero {...data.hero} />}
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3">
+        {industries.map((p) => (
+          <ServiceCard
+            title={p.data.title}
+            desc={p.data.seo.description}
+            href={p.data.url!}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTABlock />
+</BaseLayout>

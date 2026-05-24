@@ -1,0 +1,10 @@
+---
+import { withBase } from "../utils/url";
+export interface Props { title: string; desc: string; href: string; }
+const { title, desc, href } = Astro.props;
+---
+<a href={withBase(href)} class="card">
+  <h3 class="card__title">{title}</h3>
+  <p class="card__desc">{desc}</p>
+  <span class="card__link">Подробнее</span>
+</a>

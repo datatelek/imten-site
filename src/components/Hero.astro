@@ -1,0 +1,36 @@
+---
+import { withBase } from "../utils/url";
+export interface Props {
+  h1: string;
+  subtitle?: string;
+  ctas?: { label: string; href: string; primary?: boolean; icon?: string }[];
+  metrics?: { value: string; label: string; growth?: string }[];
+}
+const { h1, subtitle, ctas = [], metrics = [] } = Astro.props;
+---
+<section class="hero">
+  <div class="container">
+    <h1 class="hero__h1">{h1}</h1>
+    {subtitle && <p class="hero__sub">{subtitle}</p>}
+    {ctas.length > 0 && (
+      <div class="hero__ctas">
+        {ctas.map((c) => (
+          <a href={withBase(c.href)} class={`btn btn--lg ${c.primary ? "btn--primary" : "btn--secondary"}`} rel={c.href.startsWith("http") ? "noopener" : undefined}>
+            {c.label}
+          </a>
+        ))}
+      </div>
+    )}
+    {metrics.length > 0 && (
+      <div class="hero__metrics" role="list">
+        {metrics.map((m) => (
+          <div role="listitem">
+            <div class="hero__metric-value">{m.value}</div>
+            <div class="hero__metric-label">{m.label}</div>
+            {m.growth && <div class="hero__metric-growth">{m.growth}</div>}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

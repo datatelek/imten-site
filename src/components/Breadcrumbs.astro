@@ -1,0 +1,19 @@
+---
+import Schema from "./Schema.astro";
+import { breadcrumbLd } from "../utils/schema-generators";
+import { withBase } from "../utils/url";
+export interface Props { items: { name: string; url: string }[] }
+const { items } = Astro.props;
+---
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
+  <div class="container">
+    <ol>
+      {items.map((it, i) => (
+        <li>
+          {i < items.length - 1 ? <a href={withBase(it.url)}>{it.name}</a> : <span>{it.name}</span>}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>
+<Schema items={[breadcrumbLd(items)]} />
