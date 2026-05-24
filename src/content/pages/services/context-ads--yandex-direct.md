@@ -1,6 +1,5 @@
 ---
 title: "Настройка и ведение Яндекс Директ"
-slug: "context-ads/yandex-direct"
 url: "/services/context-ads/yandex-direct"
 parent: "context-ads"
 sortOrder: 11

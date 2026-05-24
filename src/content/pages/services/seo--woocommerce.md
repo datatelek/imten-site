@@ -1,6 +1,5 @@
 ---
 title: "SEO для интернет-магазина на WooCommerce"
-slug: "seo/woocommerce"
 url: "/services/seo/woocommerce"
 parent: "seo"
 sortOrder: 34

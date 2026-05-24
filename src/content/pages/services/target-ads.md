@@ -1,6 +1,5 @@
 ---
 title: "Таргетированная реклама"
-slug: "target-ads"
 url: "/services/target-ads"
 parent: "services"
 sortOrder: 20

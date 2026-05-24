@@ -1,6 +1,5 @@
 ---
 title: "Контакты IMTEN"
-slug: "contacts"
 url: "/contacts"
 seo:
   title: "Контакты IMTEN — Telegram, WhatsApp, email, реквизиты"

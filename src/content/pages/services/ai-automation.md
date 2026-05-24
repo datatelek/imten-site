@@ -1,6 +1,5 @@
 ---
 title: "AI-автоматизация маркетинга"
-slug: "ai-automation"
 url: "/services/ai-automation"
 parent: "services"
 sortOrder: 60

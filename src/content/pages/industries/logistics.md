@@ -1,6 +1,5 @@
 ---
 title: "Маркетинг для логистики и ВЭД"
-slug: "logistics"
 url: "/industries/logistics"
 seo:
   title: "Маркетинг для логистики — ВЭД, доставка из Китая | IMTEN"

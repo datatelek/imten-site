@@ -1,6 +1,5 @@
 ---
 title: "Маркетинг для интернет-магазинов"
-slug: "ecommerce"
 url: "/industries/ecommerce"
 seo:
   title: "Маркетинг для e-commerce — WooCommerce, маркетплейсы | IMTEN"

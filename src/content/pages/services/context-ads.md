@@ -1,6 +1,5 @@
 ---
 title: "Контекстная реклама"
-slug: "context-ads"
 url: "/services/context-ads"
 parent: "services"
 sortOrder: 10

@@ -1,6 +1,5 @@
 ---
 title: "IMTEN — digital-агентство: контекст, таргет, SEO, AI-автоматизация"
-slug: "home"
 url: "/"
 seo:
   title: "IMTEN — digital-агентство | контекст, таргет, SEO, AI"

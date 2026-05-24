@@ -1,6 +1,5 @@
 ---
 title: "Маркетинг для онлайн-школ и EdTech"
-slug: "education"
 url: "/industries/education"
 seo:
   title: "Маркетинг для онлайн-школ — IT, языки, EdTech | IMTEN"

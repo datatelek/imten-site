@@ -1,6 +1,5 @@
 ---
 title: "Маркетинг для недвижимости"
-slug: "realty"
 url: "/industries/realty"
 seo:
   title: "Реклама недвижимости — новостройки, вторичка, зарубежная | IMTEN"

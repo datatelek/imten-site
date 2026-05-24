@@ -1,6 +1,5 @@
 ---
 title: "Веб-аналитика и сквозная аналитика"
-slug: "analytics"
 url: "/services/analytics"
 parent: "services"
 sortOrder: 40

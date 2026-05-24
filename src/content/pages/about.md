@@ -1,6 +1,5 @@
 ---
 title: "Об агентстве IMTEN"
-slug: "about"
 url: "/about"
 seo:
   title: "Об агентстве IMTEN — кто мы и как работаем"

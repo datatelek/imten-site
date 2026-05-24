@@ -1,6 +1,5 @@
 ---
 title: "SEO для интернет-магазина"
-slug: "seo/ecommerce"
 url: "/services/seo/ecommerce"
 parent: "seo"
 sortOrder: 33

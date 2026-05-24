@@ -1,6 +1,5 @@
 ---
 title: "Политика конфиденциальности"
-slug: "privacy"
 url: "/privacy"
 seo:
   title: "Политика конфиденциальности — IMTEN"

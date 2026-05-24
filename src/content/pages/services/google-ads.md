@@ -1,6 +1,5 @@
 ---
 title: "Настройка Google Ads (для зарубежных проектов)"
-slug: "context-ads/google-ads"
 url: "/services/context-ads/google-ads"
 parent: "context-ads"
 sortOrder: 12

@@ -1,6 +1,5 @@
 ---
 title: "SEO-продвижение сайтов"
-slug: "seo"
 url: "/services/seo"
 parent: "services"
 sortOrder: 30

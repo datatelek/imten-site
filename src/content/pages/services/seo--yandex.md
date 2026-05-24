@@ -1,6 +1,5 @@
 ---
 title: "SEO-продвижение в Яндексе"
-slug: "seo/yandex"
 url: "/services/seo/yandex"
 parent: "seo"
 sortOrder: 31

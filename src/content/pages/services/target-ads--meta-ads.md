@@ -1,6 +1,5 @@
 ---
 title: "Настройка Meta Ads (Facebook + Instagram) для зарубежных проектов"
-slug: "target-ads/meta-ads"
 url: "/services/target-ads/meta-ads"
 parent: "target-ads"
 sortOrder: 22

@@ -69,7 +69,7 @@ const pages = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    slug: z.string().optional(),
+    // NB: `slug` намеренно убран — Astro Content Collections резервирует его под автогенерацию
     url: z.string().optional(),
     layout: z.enum(["BaseLayout", "ServicePage", "IndustryPage"]).optional(),
     parent: z.string().optional(),

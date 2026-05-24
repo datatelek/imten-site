@@ -1,6 +1,5 @@
 ---
 title: "Настройка VK Ads / Таргет ВКонтакте"
-slug: "target-ads/vk-ads"
 url: "/services/target-ads/vk-ads"
 parent: "target-ads"
 sortOrder: 21

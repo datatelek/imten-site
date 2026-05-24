@@ -1,6 +1,5 @@
 ---
 title: "Индустрии — кому помогаем"
-slug: "industries-index"
 url: "/industries"
 seo:
   title: "Индустрии — IMTEN | в каких нишах работаем"

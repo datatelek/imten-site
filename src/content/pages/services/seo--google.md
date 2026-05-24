@@ -1,6 +1,5 @@
 ---
 title: "SEO-продвижение в Google"
-slug: "seo/google"
 url: "/services/seo/google"
 parent: "seo"
 sortOrder: 32

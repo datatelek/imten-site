@@ -1,6 +1,5 @@
 ---
 title: "Услуги IMTEN — контекст, таргет, SEO, AI-автоматизация"
-slug: "services-index"
 url: "/services"
 seo:
   title: "Услуги digital-агентства IMTEN: контекст, таргет, SEO"

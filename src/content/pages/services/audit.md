@@ -1,6 +1,5 @@
 ---
 title: "Бесплатный аудит рекламы и SEO"
-slug: "audit"
 url: "/services/audit"
 parent: "services"
 sortOrder: 70
